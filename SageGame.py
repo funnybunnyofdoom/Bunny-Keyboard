@@ -1,4 +1,10 @@
-# Simple pygame program
+#Author: FunnybunnyofDOOM
+#Created: 9/24/2021
+#Language: Python 3.0
+#Contact: Funnybunnyofdoom@gmail.com
+
+# Simple pygame program to display images upon keys being pressed
+
 
 # Import and initialize the pygame library
 import pygame, sys
