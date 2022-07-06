@@ -7,20 +7,48 @@
 
 
 # Import and initialize the pygame library
-import pygame, sys, os
+import pygame, sys, os, string
 from pygame.locals import *
+from pygame import mixer
+from string import *
 pygame.init()
+mixer.init()
+
 
 current_path = os.path.dirname(__file__) # Where your .py file is located
 resource_path = os.path.join(current_path, 'SageGameIMG') # The resource folder path
+sfx_path = os.path.join(current_path, 'SageGameSFX') #The sound folder path
+
+mixer.music.load(os.path.join(sfx_path, "test.mp3"))
+mixer.music.set_volume(0.4)
+mixer.music.play()
+
+
 
 infoObject = pygame.display.Info() #Get the display info object
 width = infoObject.current_w #Get the width and height from the info object
 height = infoObject.current_h
 fullscreen_image_size = (width, height)
 
+keylist = ["alt","backspace","capslock","ctrl","delete","down","end","enter","home","insert","left","printscreen","right","shift","space","tab","symbols","up"]
+
+imagedict = {} #Create a dictionary to hold our keys and images
+displaydict = {} #Holds our displayed state
+
+for character in string.ascii_lowercase + string.digits: #loop through digits and letters
+    loadimage = pygame.image.load(os.path.join(resource_path, "key_"+character+".png")) #Load the image
+    imagedict[character] = pygame.transform.scale(loadimage, fullscreen_image_size) #Transform the image and store in dictionary
+    displaydict[character] = False
+for item in keylist: #Loop through our dictionary of non-alphanmumeric keys
+    loadimage = pygame.image.load(os.path.join(resource_path, "key_"+item+".png"))
+    imagedict[item] = pygame.transform.scale(loadimage,fullscreen_image_size)   
+    displaydict[item] = False
+
+
 bg = pygame.image.load(os.path.join(resource_path, "keyboard.png"))
 bg = pygame.transform.scale(bg, fullscreen_image_size)
+
+
 q = pygame.image.load(os.path.join(resource_path, "key_q.png"))
 q = pygame.transform.scale(q, fullscreen_image_size)
 w = pygame.image.load(os.path.join(resource_path, "key_w.png"))
@@ -212,288 +240,42 @@ running = True
 while running:
     #screen.blit(bg, (0, 0))
     pygame.display.update()
-    
+    print(timer)
+    print(keypressed)
 
+    for kitem in string.ascii_lowercase + string.digits:
+        if displaydict[kitem] == True:
+            screen.fill(background_colour)
+            screen.blit(imagedict[kitem], (0, 0))
+            pygame.display.update()
+            mixer.music.load(os.path.join(sfx_path,kitem+".mp3"))
+            mixer.music.set_volume(0.4)
+            mixer.music.play()
+            
+        else:
+            screen.fill(background_colour)
+            screen.blit(bg, (0, 0))
+            pygame.display.update()
+    for kitem in keylist:
+            if displaydict[kitem] == True:
+                screen.fill(background_colour)
+                screen.blit(imagedict[kitem], (0, 0))
+                pygame.display.update()
+                mixer.music.load(os.path.join(sfx_path,kitem+".mp3"))
+                mixer.music.set_volume(0.4)
+                mixer.music.play()
+            else:
+                screen.fill(background_colour)
+                screen.blit(bg, (0, 0))
+                pygame.display.update()
 
-
-#Check for display status of images
-    if display_q == True:
-        screen.fill(background_colour)
-        screen.blit(q, (0, 0))
-        pygame.display.update()
-    elif display_w == True:
-        screen.fill(background_colour)
-        screen.blit(w, (0, 0))
-        pygame.display.update()
-    elif display_e == True:
-        screen.fill(background_colour)
-        screen.blit(e, (0, 0))
-        pygame.display.update()
-    elif display_r == True:
-        screen.fill(background_colour)
-        screen.blit(r, (0, 0))
-        pygame.display.update()
-    elif display_t == True:
-        screen.fill(background_colour)
-        screen.blit(t, (0, 0))
-        pygame.display.update()
-    elif display_y == True:
-        screen.fill(background_colour)
-        screen.blit(y, (0, 0))
-        pygame.display.update()
-    elif display_u == True:
-        screen.fill(background_colour)
-        screen.blit(u, (0, 0))
-        pygame.display.update()
-    elif display_i == True:
-        screen.fill(background_colour)
-        screen.blit(i, (0, 0))
-        pygame.display.update()
-    elif display_o == True:
-        screen.fill(background_colour)
-        screen.blit(o, (0, 0))
-        pygame.display.update()
-    elif display_p == True:
-        screen.fill(background_colour)
-        screen.blit(p, (0, 0))
-        pygame.display.update()        
-    elif display_a == True:
-        screen.fill(background_colour)
-        screen.blit(a, (0, 0))
-        pygame.display.update()        
-    elif display_s == True:
-        screen.fill(background_colour)
-        screen.blit(s, (0, 0))
-        pygame.display.update()        
-    elif display_d == True:
-        screen.fill(background_colour)
-        screen.blit(d, (0, 0))
-        pygame.display.update()        
-    elif display_f == True:
-        screen.fill(background_colour)
-        screen.blit(f, (0, 0))
-        pygame.display.update()        
-    elif display_g == True:
-        screen.fill(background_colour)
-        screen.blit(g, (0, 0))
-        pygame.display.update()        
-    elif display_h == True:
-        screen.fill(background_colour)
-        screen.blit(h, (0, 0))
-        pygame.display.update()        
-    elif display_j == True:
-        screen.fill(background_colour)
-        screen.blit(j, (0, 0))
-        pygame.display.update()        
-    elif display_k == True:
-        screen.fill(background_colour)
-        screen.blit(k, (0, 0))
-        pygame.display.update()        
-    elif display_l == True:
-        screen.fill(background_colour)
-        screen.blit(l, (0, 0))
-        pygame.display.update()        
-    elif display_z == True:
-        screen.fill(background_colour)
-        screen.blit(z, (0, 0))
-        pygame.display.update()        
-    elif display_x == True:
-        screen.fill(background_colour)
-        screen.blit(x, (0, 0))
-        pygame.display.update()        
-    elif display_c == True:
-        screen.fill(background_colour)
-        screen.blit(c, (0, 0))
-        pygame.display.update()        
-    elif display_v == True:
-        screen.fill(background_colour)
-        screen.blit(v, (0, 0))
-        pygame.display.update()        
-    elif display_b == True:
-        screen.fill(background_colour)
-        screen.blit(b, (0, 0))
-        pygame.display.update()        
-    elif display_n == True:
-        screen.fill(background_colour)
-        screen.blit(n, (0, 0))
-        pygame.display.update()        
-    elif display_m == True:
-        screen.fill(background_colour)
-        screen.blit(m, (0, 0))
-        pygame.display.update()
-    elif display_0 == True:
-        screen.fill(background_colour)
-        screen.blit(k0, (0, 0))
-        pygame.display.update()
-    elif display_9 == True:
-        screen.fill(background_colour)
-        screen.blit(k9, (0, 0))
-        pygame.display.update()
-    elif display_8 == True:
-        screen.fill(background_colour)
-        screen.blit(k8, (0, 0))
-        pygame.display.update()
-    elif display_7 == True:
-        screen.fill(background_colour)
-        screen.blit(k7, (0, 0))
-        pygame.display.update()
-    elif display_6 == True:
-        screen.fill(background_colour)
-        screen.blit(k6, (0, 0))
-        pygame.display.update()
-    elif display_5 == True:
-        screen.fill(background_colour)
-        screen.blit(k5, (0, 0))
-        pygame.display.update()
-    elif display_4 == True:
-        screen.fill(background_colour)
-        screen.blit(k4, (0, 0))
-        pygame.display.update()
-    elif display_3 == True:
-        screen.fill(background_colour)
-        screen.blit(k3, (0, 0))
-        pygame.display.update()
-    elif display_2 == True:
-        screen.fill(background_colour)
-        screen.blit(k2, (0, 0))
-        pygame.display.update()
-    elif display_1 == True:
-        screen.fill(background_colour)
-        screen.blit(k1, (0, 0))
-        pygame.display.update()
-    elif display_alt == True:
-        screen.fill(background_colour)
-        screen.blit(alt, (0, 0))
-        pygame.display.update()
-    elif display_backspace == True:
-        screen.fill(background_colour)
-        screen.blit(backspace, (0, 0))
-        pygame.display.update()
-    elif display_capslock == True:
-        screen.fill(background_colour)
-        screen.blit(capslock, (0, 0))
-        pygame.display.update()
-    elif display_shift == True:
-        screen.fill(background_colour)
-        screen.blit(shift, (0, 0))
-        pygame.display.update()
-    elif display_ctrl == True:
-        screen.fill(background_colour)
-        screen.blit(ctrl, (0, 0))
-        pygame.display.update()
-    elif display_delete == True:
-        screen.fill(background_colour)
-        screen.blit(delete, (0, 0))
-        pygame.display.update()
-    elif display_down == True:
-        screen.fill(background_colour)
-        screen.blit(down, (0, 0))
-        pygame.display.update()
-    elif display_end == True:
-        screen.fill(background_colour)
-        screen.blit(end, (0, 0))
-        pygame.display.update()
-    elif display_enter == True:
-        screen.fill(background_colour)
-        screen.blit(enter, (0, 0))
-        pygame.display.update()
-    elif display_home == True:
-        screen.fill(background_colour)
-        screen.blit(home, (0, 0))
-        pygame.display.update()
-    elif display_insert == True:
-        screen.fill(background_colour)
-        screen.blit(insert, (0, 0))
-        pygame.display.update()
-    elif display_left == True:
-        screen.fill(background_colour)
-        screen.blit(left, (0, 0))
-        pygame.display.update()
-    elif display_printscreen == True:
-        screen.fill(background_colour)
-        screen.blit(printscreen, (0, 0))
-        pygame.display.update()
-    elif display_right == True:
-        screen.fill(background_colour)
-        screen.blit(right, (0, 0))
-        pygame.display.update()
-    elif display_space == True:
-        screen.fill(background_colour)
-        screen.blit(space, (0, 0))
-        pygame.display.update()
-    elif display_tab == True:
-        screen.fill(background_colour)
-        screen.blit(tab, (0, 0))
-        pygame.display.update()
-    elif display_symbols == True:
-        screen.fill(background_colour)
-        screen.blit(symbols, (0, 0))
-        pygame.display.update()
-    elif display_up == True:
-        screen.fill(background_colour)
-        screen.blit(up, (0, 0))
-        pygame.display.update()
-    else:
-        screen.fill(background_colour)
-        screen.blit(bg, (0, 0))
-        pygame.display.update()
 
 #Check for image timer
     if timer == 0:
-        display_q = False
-        display_w = False
-        display_e = False
-        display_r = False
-        display_t = False
-        display_y = False
-        display_u = False
-        display_i = False
-        display_o = False
-        display_p = False
-        display_a = False
-        display_s = False
-        display_d = False
-        display_f = False
-        display_g = False
-        display_h = False
-        display_j = False
-        display_k = False
-        display_l = False
-        display_z = False
-        display_x = False
-        display_c = False
-        display_v = False
-        display_b = False
-        display_n = False
-        display_m = False
-        display_0 = False
-        display_9 = False
-        display_8 = False
-        display_7 = False
-        display_6 = False
-        display_5 = False
-        display_4 = False
-        display_3 = False
-        display_2 = False
-        display_1 = False
-        display_alt = False
-        display_backspace = False
-        display_capslock = False
-        display_ctrl = False
-        display_delete = False
-        display_down = False
-        display_end = False
-        display_enter = False
-        display_home = False
-        display_insert = False
-        display_left = False
-        display_printscreen = False
-        display_right = False
-        display_shift = False
-        display_space = False
-        display_tab = False
-        display_symbols = False
-        display_up = False
+        for eitem in string.ascii_lowercase + string.digits:
+            displaydict[eitem] = False
+        for eitem in keylist:
+            displaydict[eitem] = False
         keypressed = False
         
         
@@ -502,233 +284,232 @@ while running:
         timer = timer - 1
 
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and keypressed == False:
-
+        if event.type == pygame.KEYDOWN and keypressed == False:                
             if event.key == pygame.K_q:
-                display_q = True
+                displaydict['q'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_w:
-                display_w = True
+                displaydict['w'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_e:
-                display_e = True
+                displaydict['e'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_r:
-                display_r = True
+                displaydict['r'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_t:
-                display_t = True
+                displaydict['t'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_y:
-                display_y = True
+                displaydict['y'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_u:
-                display_u = True
+                displaydict['u'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_i:
-                display_i = True
+                displaydict['i'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_o:
-                display_o = True
+                displaydict['o'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_p:
-                display_p = True
+                displaydict['p'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_a:
-                display_a = True
+                displaydict['a'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_s:
-                display_s = True
+                displaydict['s'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_d:
-                display_d = True
+                displaydict['d'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_f:
-                display_f = True
+                displaydict['f'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_g:
-                display_g = True
+                displaydict['g'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_h:
-                display_h = True
+                displaydict['h'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_j:
-                display_j = True
+                displaydict['j'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_k:
-                display_k = True
+                displaydict['k'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_l:
-                display_l = True
+                displaydict['l'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_z:
-                display_z = True
+                displaydict['z'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_x:
-                display_x = True
+                displaydict['x'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_c:
-                display_c = True
+                displaydict['c'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_v:
-                display_v = True
+                displaydict['v'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_b:
-                display_b = True
+                displaydict['b'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_n:
-                display_n = True
+                displaydict['n'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_m:
-                display_m = True
+                displaydict['m'] = True
                 timer = CLOCK
                 keypressed = True
             elif event.key == pygame.K_0:
-                display_0 = True
+                displaydict['0'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_1:
-                display_1 = True
+                displaydict['1'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_2:
-                display_2 = True
+                displaydict['2'] = True
                 timer = CLOCK2
             elif event.key == pygame.K_3:
-                display_3 = True
+                displaydict['3'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_4:
-                display_4 = True
+                displaydict['4'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_5:
-                display_5 = True
+                displaydict['5'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_6:
-                display_6 = True
+                displaydict['6'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_7:
-                display_7 = True
+                displaydict['7'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_8:
-                display_8 = True
+                displaydict['8'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_9:
-                display_9 = True
+                displaydict['9'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_LALT:
-                display_alt = True
+                displaydict['alt'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_RALT:
-                display_alt = True
+                displaydict['alt'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_BACKSPACE:
-                display_backspace = True
+                displaydict['backspace'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_CAPSLOCK:
-                display_capslock = True
+                displaydict['capslock'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_RCTRL:
-                display_ctrl = True
+                displaydict['ctrl'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_LCTRL:
-                display_ctrl = True
+                displaydict['ctrl'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_DELETE:
-                display_delete = True
+                displaydict['delete'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_DOWN:
-                display_down = True
+                displaydict['down'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_END:
-                display_end = True
+                displaydict['end'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_RETURN:
-                display_return = True
+                displaydict['return'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_KP_ENTER:
-                display_enter = True
+                displaydict['enter'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_HOME:
-                display_home = True
+                displaydict['home'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_INSERT:
-                display_insert = True
+                displaydict['insert'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_LEFT:
-                display_left = True
+                displaydict['left'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_PRINT:
-                display_printscreen = True
+                displaydict['printscreen'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_RIGHT:
-                display_right = True
+                displaydict['right'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_LSHIFT:
-                display_shift = True
+                displaydict['shift'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_RSHIFT:
-                display_shift = True
+                displaydict['shift'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_SPACE:
-                display_space = True
+                displaydict['space'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_TAB:
-                display_tab = True
+                displaydict['tab'] = True
                 timer = CLOCK2
                 keypressed = True
             elif event.key == pygame.K_UP:
-                display_up = True
+                displaydict['up'] = True
                 timer = CLOCK2
                 keypressed = True
                 
@@ -736,4 +517,3 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-
